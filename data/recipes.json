@@ -10,13 +10,41 @@
       "category": "pasta",
       "image": "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "400g", "name": "spaghetti", "type": "carb"},
-        {"amount": "200g", "name": "pancetta", "type": "protein"},
-        {"amount": "4 large", "name": "eggs", "type": "protein"},
-        {"amount": "100g", "name": "Pecorino Romano cheese", "type": "dairy"},
-        {"amount": "50g", "name": "Parmesan cheese", "type": "dairy"},
-        {"amount": "to taste", "name": "black pepper", "type": "spice"},
-        {"amount": "to taste", "name": "salt", "type": "spice"}
+        {
+          "amount": "400g",
+          "name": "spaghetti",
+          "type": "carb"
+        },
+        {
+          "amount": "200g",
+          "name": "pancetta",
+          "type": "protein"
+        },
+        {
+          "amount": "4 large",
+          "name": "eggs",
+          "type": "protein"
+        },
+        {
+          "amount": "100g",
+          "name": "Pecorino Romano cheese",
+          "type": "dairy"
+        },
+        {
+          "amount": "50g",
+          "name": "Parmesan cheese",
+          "type": "dairy"
+        },
+        {
+          "amount": "to taste",
+          "name": "black pepper",
+          "type": "spice"
+        },
+        {
+          "amount": "to taste",
+          "name": "salt",
+          "type": "spice"
+        }
       ],
       "instructions": [
         "Bring a large pot of salted water to boil and cook spaghetti according to package instructions.",
@@ -38,15 +66,51 @@
       "category": "vegetarian",
       "image": "https://images.unsplash.com/photo-1512058564366-18510be2db19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "2 cups", "name": "mixed vegetables (bell peppers, broccoli, carrots, snow peas)", "type": "vegetable"},
-        {"amount": "2 cloves", "name": "garlic", "type": "vegetable"},
-        {"amount": "1 tbsp", "name": "ginger", "type": "vegetable"},
-        {"amount": "2 tbsp", "name": "soy sauce", "type": "sauce"},
-        {"amount": "1 tbsp", "name": "oyster sauce", "type": "sauce"},
-        {"amount": "1 tsp", "name": "sesame oil", "type": "oil"},
-        {"amount": "2 tbsp", "name": "vegetable oil", "type": "oil"},
-        {"amount": "2 stalks", "name": "green onions", "type": "vegetable"},
-        {"amount": "1 tsp", "name": "sesame seeds", "type": "spice"}
+        {
+          "amount": "2 cups",
+          "name": "mixed vegetables (bell peppers, broccoli, carrots, snow peas)",
+          "type": "vegetable"
+        },
+        {
+          "amount": "2 cloves",
+          "name": "garlic",
+          "type": "vegetable"
+        },
+        {
+          "amount": "1 tbsp",
+          "name": "ginger",
+          "type": "vegetable"
+        },
+        {
+          "amount": "2 tbsp",
+          "name": "soy sauce",
+          "type": "sauce"
+        },
+        {
+          "amount": "1 tbsp",
+          "name": "oyster sauce",
+          "type": "sauce"
+        },
+        {
+          "amount": "1 tsp",
+          "name": "sesame oil",
+          "type": "oil"
+        },
+        {
+          "amount": "2 tbsp",
+          "name": "vegetable oil",
+          "type": "oil"
+        },
+        {
+          "amount": "2 stalks",
+          "name": "green onions",
+          "type": "vegetable"
+        },
+        {
+          "amount": "1 tsp",
+          "name": "sesame seeds",
+          "type": "spice"
+        }
       ],
       "instructions": [
         "Chop all vegetables into bite-sized pieces.",
@@ -69,15 +133,51 @@
       "category": "dessert",
       "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "2 1/4 cups", "name": "all-purpose flour", "type": "carb"},
-        {"amount": "1 tsp", "name": "baking soda", "type": "leavening"},
-        {"amount": "1 tsp", "name": "salt", "type": "spice"},
-        {"amount": "1 cup", "name": "butter", "type": "dairy"},
-        {"amount": "3/4 cup", "name": "granulated sugar", "type": "sweetener"},
-        {"amount": "3/4 cup", "name": "brown sugar", "type": "sweetener"},
-        {"amount": "2 large", "name": "eggs", "type": "protein"},
-        {"amount": "2 tsp", "name": "vanilla extract", "type": "flavoring"},
-        {"amount": "2 cups", "name": "chocolate chips", "type": "sweetener"}
+        {
+          "amount": "2 1/4 cups",
+          "name": "all-purpose flour",
+          "type": "carb"
+        },
+        {
+          "amount": "1 tsp",
+          "name": "baking soda",
+          "type": "leavening"
+        },
+        {
+          "amount": "1 tsp",
+          "name": "salt",
+          "type": "spice"
+        },
+        {
+          "amount": "1 cup",
+          "name": "butter",
+          "type": "dairy"
+        },
+        {
+          "amount": "3/4 cup",
+          "name": "granulated sugar",
+          "type": "sweetener"
+        },
+        {
+          "amount": "3/4 cup",
+          "name": "brown sugar",
+          "type": "sweetener"
+        },
+        {
+          "amount": "2 large",
+          "name": "eggs",
+          "type": "protein"
+        },
+        {
+          "amount": "2 tsp",
+          "name": "vanilla extract",
+          "type": "flavoring"
+        },
+        {
+          "amount": "2 cups",
+          "name": "chocolate chips",
+          "type": "sweetener"
+        }
       ],
       "instructions": [
         "Preheat oven to 375°F (190°C).",
@@ -101,13 +201,41 @@
       "category": "fish",
       "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "2", "name": "salmon fillets", "type": "protein"},
-        {"amount": "1", "name": "lemon", "type": "fruit"},
-        {"amount": "2 tbsp", "name": "olive oil", "type": "oil"},
-        {"amount": "2 cloves", "name": "garlic", "type": "vegetable"},
-        {"amount": "2 tbsp", "name": "fresh dill", "type": "herb"},
-        {"amount": "to taste", "name": "salt", "type": "spice"},
-        {"amount": "to taste", "name": "black pepper", "type": "spice"}
+        {
+          "amount": "2",
+          "name": "salmon fillets",
+          "type": "protein"
+        },
+        {
+          "amount": "1",
+          "name": "lemon",
+          "type": "fruit"
+        },
+        {
+          "amount": "2 tbsp",
+          "name": "olive oil",
+          "type": "oil"
+        },
+        {
+          "amount": "2 cloves",
+          "name": "garlic",
+          "type": "vegetable"
+        },
+        {
+          "amount": "2 tbsp",
+          "name": "fresh dill",
+          "type": "herb"
+        },
+        {
+          "amount": "to taste",
+          "name": "salt",
+          "type": "spice"
+        },
+        {
+          "amount": "to taste",
+          "name": "black pepper",
+          "type": "spice"
+        }
       ],
       "instructions": [
         "Preheat grill to medium-high heat.",
@@ -128,12 +256,36 @@
       "category": "vegan",
       "image": "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "2 slices", "name": "bread", "type": "carb"},
-        {"amount": "1 ripe", "name": "avocado", "type": "fruit"},
-        {"amount": "1 tbsp", "name": "lemon juice", "type": "fruit"},
-        {"amount": "to taste", "name": "salt", "type": "spice"},
-        {"amount": "to taste", "name": "black pepper", "type": "spice"},
-        {"amount": "1/2 tsp", "name": "chili flakes", "type": "spice"}
+        {
+          "amount": "2 slices",
+          "name": "bread",
+          "type": "carb"
+        },
+        {
+          "amount": "1 ripe",
+          "name": "avocado",
+          "type": "fruit"
+        },
+        {
+          "amount": "1 tbsp",
+          "name": "lemon juice",
+          "type": "fruit"
+        },
+        {
+          "amount": "to taste",
+          "name": "salt",
+          "type": "spice"
+        },
+        {
+          "amount": "to taste",
+          "name": "black pepper",
+          "type": "spice"
+        },
+        {
+          "amount": "1/2 tsp",
+          "name": "chili flakes",
+          "type": "spice"
+        }
       ],
       "instructions": [
         "Toast the bread until golden and crisp.",
@@ -152,18 +304,62 @@
       "category": "breakfast",
       "image": "https://images.unsplash.com/photo-1551782453-80e0d4852c71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "ingredients": [
-        {"amount": "1 cup", "name": "mixed berries", "type": "fruit"},
-        {"amount": "1", "name": "banana", "type": "fruit"},
-        {"amount": "1/2 cup", "name": "Greek yogurt", "type": "dairy"},
-        {"amount": "2 tbsp", "name": "honey", "type": "sweetener"},
-        {"amount": "1/4 cup", "name": "granola", "type": "carb"},
-        {"amount": "1 tsp", "name": "chia seeds", "type": "seed"}
+        {
+          "amount": "1 cup",
+          "name": "mixed berries",
+          "type": "fruit"
+        },
+        {
+          "amount": "1",
+          "name": "banana",
+          "type": "fruit"
+        },
+        {
+          "amount": "1/2 cup",
+          "name": "Greek yogurt",
+          "type": "dairy"
+        },
+        {
+          "amount": "2 tbsp",
+          "name": "honey",
+          "type": "sweetener"
+        },
+        {
+          "amount": "1/4 cup",
+          "name": "granola",
+          "type": "carb"
+        },
+        {
+          "amount": "1 tsp",
+          "name": "chia seeds",
+          "type": "seed"
+        }
       ],
       "instructions": [
         "Blend berries, banana, yogurt, and honey until smooth.",
         "Pour into a bowl.",
         "Top with granola and chia seeds.",
         "Serve immediately."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "ForUshj",
+      "description": "More :3",
+      "category": "Sneggs",
+      "prepTime": "0",
+      "cookTime": "180 min",
+      "servings": 98433847379812,
+      "image": "",
+      "ingredients": [
+        {
+          "amount": "200g",
+          "name": "sneggs",
+          "type": "spice"
+        }
+      ],
+      "instructions": [
+        "U & me <3"
       ]
     }
   ]
