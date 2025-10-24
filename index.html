@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Collection</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Delicious Recipes</h1>
+      <p>Find and filter recipes by ingredients</p>
+    </header>
+
+    <div class="container">
+      <!-- Sidebar for ingredients filter -->
+      <div class="sidebar">
+        <h2>Filter by Ingredients</h2>
+        <h3>Select ingredients to find matching recipes:</h3>
+        <div id="ingredients-container" class="ingredients-grid">
+          <!-- Ingredients checkboxes will be loaded here -->
+        </div>
+        <button id="deselect-all" class="deselect-btn">
+          Deselect All Ingredients
+        </button>
+      </div>
+
+      <!-- Main content area -->
+      <div class="main-content">
+        <div class="recipe-header">
+          <h2>Recipe Collection</h2>
+          <div id="recipe-count" class="recipe-count">Loading recipes...</div>
+        </div>
+
+        <div class="recipe-tabs" id="recipe-tabs">
+          <!-- Category tabs will be dynamically generated -->
+        </div>
+
+        <div id="recipe-container" class="recipe-grid">
+          <!-- Recipes will be loaded here -->
+        </div>
+        <div id="no-recipes-message" class="no-recipes" style="display: none">
+          <h3>No recipes match your selected ingredients</h3>
+          <p>Try selecting different ingredients</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2023 Recipe Collection. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
