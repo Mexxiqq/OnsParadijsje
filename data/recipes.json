@@ -1,4 +1,18 @@
 {
+  "_comment": "How to assign categories: use either `category` (string) for a single category or `categories` (array of strings) for multiple; if both are present, `categories` is used. JSON does not support comments; this field is for documentation only.",
+  "_categoryUsage": {
+    "singleCategoryExample": {
+      "id": 999,
+      "name": "Example Single",
+      "category": "dessert"
+    },
+    "multiCategoryExample": {
+      "id": 1000,
+      "name": "Example Multi",
+      "categories": ["pasta", "vegetarian"]
+    },
+    "precedence": "When both `category` and `categories` are present, `categories` takes precedence."
+  },
   "recipes": [
     {
       "id": 1,

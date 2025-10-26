@@ -8,11 +8,21 @@ export function applyFilters(
 ) {
   let filteredRecipes = [...recipes.recipes];
 
+  const getCategories = (r) => {
+    if (Array.isArray(r.categories) && r.categories.length) {
+      return r.categories.map((c) => String(c).toLowerCase());
+    }
+    if (r.category) return [String(r.category).toLowerCase()];
+    return [];
+  };
+
   // Apply category filter
-  if (currentCategory !== "all") {
-    filteredRecipes = filteredRecipes.filter(
-      (recipe) => recipe.category === currentCategory
-    );
+  const active = String(currentCategory || 'all').toLowerCase();
+  if (active !== "all") {
+    filteredRecipes = filteredRecipes.filter((recipe) => {
+      const cats = getCategories(recipe);
+      return cats.includes(active);
+    });
   }
 
   // Apply ingredient filter if any ingredients are selected
@@ -20,8 +30,8 @@ export function applyFilters(
     // Calculate matching counts for each recipe
     const recipesWithMatches = filteredRecipes.map((recipe) => {
       // Get ingredient names (ignoring amounts) for this recipe
-      const recipeIngredientNames = recipe.ingredients.map((ingredient) =>
-        ingredient.name.toLowerCase()
+      const recipeIngredientNames = (recipe.ingredients || []).map((ingredient) =>
+        (ingredient.name || '').toLowerCase()
       );
 
       // Count how many selected ingredients are in this recipe
@@ -44,6 +54,6 @@ export function applyFilters(
     filteredRecipes.sort((a, b) => b.matchingCount - a.matchingCount);
   }
 
-  // Display the recipes
+  // Display the recipes directly (English-only UI)
   RecipeCard.display(filteredRecipes);
 }

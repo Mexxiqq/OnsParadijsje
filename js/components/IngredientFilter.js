@@ -1,5 +1,11 @@
-import { setSelectedIngredients } from "../app.js";
+import { setSelectedIngredients, currentCategory, selectedIngredients as globalSelected } from "../app.js";
 import { applyFilters } from "../utils/filters.js";
+
+function titleCase(str) {
+  try {
+    return String(str).charAt(0).toUpperCase() + String(str).slice(1);
+  } catch (_) { return String(str); }
+}
 
 export class IngredientFilter {
   static init(recipesData, ingredientTypes) {
@@ -14,9 +20,9 @@ export class IngredientFilter {
     const ingredientsByType = {};
 
     this.recipesData.recipes.forEach((recipe) => {
-      recipe.ingredients.forEach((ingredient) => {
+      (recipe.ingredients || []).forEach((ingredient) => {
         const type = ingredient.type;
-        const ingredientName = ingredient.name.toLowerCase();
+        const ingredientName = (ingredient.name || '').toLowerCase();
 
         if (!ingredientsByType[type]) {
           ingredientsByType[type] = new Set();
@@ -37,12 +43,18 @@ export class IngredientFilter {
           const categoryDiv = document.createElement("div");
           categoryDiv.className = "ingredient-category";
 
-          // Format type name for display
-          const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+          const typeName = titleCase(type);
 
+          // Build accessible collapsible category
+          const panelId = `panel-${type.replace(/\s+/g, '-')}`;
           categoryDiv.innerHTML = `
-                        <div class="category-title">${typeName}</div>
+                        <button type="button" class="category-title category-toggle" id="label-${panelId}" aria-expanded="false" aria-controls="${panelId}">
+                            ${typeName}
+                        </button>
+                        <div id="${panelId}" class="category-panel" role="region" aria-labelledby="label-${panelId}"></div>
                     `;
+
+          const panelEl = categoryDiv.querySelector('.category-panel');
 
           // Sort and display ingredients
           Array.from(ingredientsByType[type])
@@ -51,25 +63,78 @@ export class IngredientFilter {
               const ingredientItem = document.createElement("div");
               ingredientItem.className = "ingredient-item";
 
+              const safeId = `ing-${ingredientName.replace(/\s+/g, '-')}`;
+              const labelText = ingredientName;
               ingredientItem.innerHTML = `
-                                <input type="checkbox" id="ing-${ingredientName.replace(
-                                  /\s+/g,
-                                  "-"
-                                )}" value="${ingredientName}">
-                                <label for="ing-${ingredientName.replace(
-                                  /\s+/g,
-                                  "-"
-                                )}">${ingredientName}</label>
+                                <input type="checkbox" id="${safeId}" value="${ingredientName}">
+                                <label for="${safeId}">${labelText}</label>
                             `;
 
-              categoryDiv.appendChild(ingredientItem);
+              panelEl.appendChild(ingredientItem);
             });
+
+          // Toggle handler for collapse/expand with accordion behavior
+          const toggleBtn = categoryDiv.querySelector('.category-toggle');
+          const handleToggle = () => {
+            const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+            const nextExpanded = !expanded;
+
+            if (nextExpanded) {
+              // Collapse all other categories
+              const allCats = this.container.querySelectorAll('.ingredient-category');
+              allCats.forEach((catEl) => {
+                if (catEl !== categoryDiv) {
+                  const btn = catEl.querySelector('.category-toggle');
+                  const panel = catEl.querySelector('.category-panel');
+                  if (btn && panel) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    panel.hidden = true;
+                    catEl.classList.add('collapsed');
+                  }
+                }
+              });
+            }
+
+            // Toggle current
+            toggleBtn.setAttribute('aria-expanded', nextExpanded ? 'true' : 'false');
+            panelEl.hidden = !nextExpanded;
+            if (nextExpanded) {
+              categoryDiv.classList.remove('collapsed');
+            } else {
+              categoryDiv.classList.add('collapsed');
+            }
+          };
+
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', handleToggle);
+            toggleBtn.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleToggle();
+              }
+            });
+          }
+
+          // Default collapsed
+          panelEl.hidden = true;
+          categoryDiv.classList.add('collapsed');
 
           this.container.appendChild(categoryDiv);
         }
       });
 
     this.addEventListeners();
+  }
+
+  static restoreCheckedState() {
+    try {
+      const checkboxes = this.container.querySelectorAll('input[type="checkbox"]');
+      const set = new Set((globalSelected || []).map((s) => String(s).toLowerCase()));
+      checkboxes.forEach((cb) => {
+        const val = (cb.value || '').toLowerCase();
+        cb.checked = set.has(val);
+      });
+    } catch (_) {}
   }
 
   static addEventListeners() {
@@ -92,7 +157,11 @@ export class IngredientFilter {
     });
 
     setSelectedIngredients(selectedIngredients);
-    applyFilters(this.recipesData, selectedIngredients);
+    // Notify app and right cart about ingredient selection changes
+    document.dispatchEvent(
+      new CustomEvent('selected-ingredients-changed', { detail: { selectedIngredients } })
+    );
+    applyFilters(this.recipesData, selectedIngredients, currentCategory);
   }
 
   static deselectAll() {

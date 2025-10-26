@@ -10,28 +10,31 @@
   </head>
   <body>
     <header>
-      <h1>Delicious Recipes</h1>
-      <p>Find and filter recipes by ingredients</p>
+      <h1 id="header-title">🍳 Recipe Collection 🍳</h1>
+      <p id="header-tagline">Find and filter recipes by ingredients</p>
     </header>
 
     <div class="container">
-      <!-- Sidebar for ingredients filter -->
-      <div class="sidebar">
+      <!-- Sidebar for ingredients filter (left) -->
+      <aside class="sidebar sidebar-left" aria-label="Ingredient filters">
         <h2>Filter by Ingredients</h2>
-        <h3>Select ingredients to find matching recipes:</h3>
+        <button id="deselect-all" class="deselect-btn">Deselect All Ingredients</button>
         <div id="ingredients-container" class="ingredients-grid">
           <!-- Ingredients checkboxes will be loaded here -->
         </div>
-        <button id="deselect-all" class="deselect-btn">
-          Deselect All Ingredients
-        </button>
-      </div>
+      </aside>
 
       <!-- Main content area -->
-      <div class="main-content">
+      <main class="main-content" role="main">
         <div class="recipe-header">
           <h2>Recipe Collection</h2>
-          <div id="recipe-count" class="recipe-count">Loading recipes...</div>
+          <div class="recipe-actions-header">
+            <div id="view-toggle" class="view-toggle" role="group" aria-label="Toggle view">
+              <button type="button" class="view-btn active" data-view="grid" aria-pressed="true" aria-label="Grid view">Grid</button>
+              <button type="button" class="view-btn" data-view="list" aria-pressed="false" aria-label="List view">List</button>
+            </div>
+            <div id="recipe-count" class="recipe-count">Loading recipes...</div>
+          </div>
         </div>
 
         <div class="recipe-tabs" id="recipe-tabs">
@@ -45,11 +48,24 @@
           <h3>No recipes match your selected ingredients</h3>
           <p>Try selecting different ingredients</p>
         </div>
-      </div>
+      </main>
+
+      <!-- Right sidebar: Shopping cart -->
+      <aside class="sidebar sidebar-right" aria-label="Shopping list">
+        <div class="cart-header">
+          <h2>Shopping List</h2>
+          <button id="copy-cart" class="copy-cart-btn" aria-label="Copy shopping list to clipboard">Copy</button>
+        </div>
+        <div id="cart-container" class="cart-scroll">
+          <!-- Cart items will be rendered here -->
+        </div>
+      </aside>
     </div>
 
     <footer>
-      <p>&copy; 2023 Recipe Collection. All rights reserved.</p>
+      <div class="footer-inner">
+        <div class="footer-copy" id="footer-copy">© 2025 Recipe Collection. All rights reserved.</div>
+      </div>
     </footer>
 
     <script type="module" src="js/app.js"></script>

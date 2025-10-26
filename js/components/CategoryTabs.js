@@ -1,5 +1,11 @@
-import { setCurrentCategory } from "../app.js";
+import { setCurrentCategory, recipesData, selectedIngredients } from "../app.js";
 import { applyFilters } from "../utils/filters.js";
+
+function titleCase(str) {
+  try {
+    return String(str).charAt(0).toUpperCase() + String(str).slice(1);
+  } catch (_) { return String(str); }
+}
 
 export class CategoryTabs {
   static init(recipeCategories, currentCategory) {
@@ -10,6 +16,7 @@ export class CategoryTabs {
   }
 
   static createTabs() {
+    if (!this.container) return;
     this.container.innerHTML = "";
 
     // Create "All" tab
@@ -18,7 +25,7 @@ export class CategoryTabs {
       this.currentCategory === "all" ? "active" : ""
     }`;
     allTab.setAttribute("data-category", "all");
-    allTab.textContent = "All Recipes";
+    allTab.textContent = "All";
     allTab.addEventListener("click", () => this.filterByCategory("all"));
     this.container.appendChild(allTab);
 
@@ -32,7 +39,7 @@ export class CategoryTabs {
           this.currentCategory === category ? "active" : ""
         }`;
         tab.setAttribute("data-category", category);
-        tab.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        tab.textContent = titleCase(category);
         tab.addEventListener("click", () => this.filterByCategory(category));
         this.container.appendChild(tab);
       });
@@ -42,6 +49,6 @@ export class CategoryTabs {
     this.currentCategory = category;
     setCurrentCategory(category);
     this.createTabs(); // Update active tab
-    applyFilters(null, null, category);
+    applyFilters(recipesData, selectedIngredients, category);
   }
 }

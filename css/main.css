@@ -24,20 +24,29 @@ header {
   margin: 2rem auto;
   padding: 0 1rem;
   display: flex;
-  gap: 2rem;
+  align-items: flex-start;
+  gap: 1.5rem;
 }
 
 /* Sidebar styles */
 .sidebar {
-  width: 300px;
+  width: 280px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  height: fit-content;
+  padding: 1rem 1.25rem;
   position: sticky;
-  top: 2rem;
+  top: 1rem; /* add viewport margin so sidebar is more in frame */
+  height: calc(100vh - 2rem); /* viewport height with top/bottom margins */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* use internal scrollers only */
+  z-index: 2; /* keep sidebar above header/footer if overlapping */
 }
+
+.sidebar-left { order: 1; }
+.main-content { order: 2; flex: 1 1 auto; min-width: 0; }
+.sidebar-right { order: 3; }
 
 .sidebar h2 {
   margin-bottom: 1rem;
@@ -53,17 +62,20 @@ header {
 .ingredients-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  max-height: 500px;
-  overflow-y: auto;
+  gap: 0.25rem; /* tighter spacing between items */
+  margin-top: 0.5rem;
+  flex: 1 1 auto;
+  min-height: 0; /* allow flex child to shrink and enable scrolling */
+  overflow-y: auto; /* own internal scroll */
+  overscroll-behavior: contain; /* prevent scroll chaining to page */
+  -webkit-overflow-scrolling: touch; /* smooth iOS scrolling */
   padding-right: 0.5rem;
 }
 
 .ingredient-category {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem; /* even tighter spacing between categories */
   border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
+  padding-bottom: 0.35rem;
 }
 
 .ingredient-category:last-child {
@@ -76,12 +88,45 @@ header {
   margin-bottom: 0.5rem;
   padding: 0.25rem 0;
   border-bottom: 1px solid var(--primary);
+  font-size: 1rem; /* ensure category title >= ingredient text */
+}
+/* Make category title a reset-style button when used as toggle */
+.category-toggle {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.category-toggle:focus {
+  outline: 2px solid rgba(255, 94, 98, 0.6);
+  outline-offset: 2px;
+}
+/* caret */
+.category-toggle::after {
+  content: '';
+  display: none;
+}
+/* Panel under each category */
+.category-panel {
+  padding-top: 0.5rem;
+}
+/* Hide panel when collapsed (redundant with hidden attr but keeps layout consistent) */
+.ingredient-category.collapsed .category-panel {
+  display: none;
+}
+/* Keep the deselect button anchored at the bottom-left inside the sidebar */
+.deselect-btn {
+  align-self: flex-start;
 }
 
 .ingredient-item {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.35rem 0.5rem; /* reduced padding */
   border-radius: 4px;
   transition: background-color 0.2s;
 }
@@ -92,6 +137,10 @@ header {
 
 .ingredient-item input {
   margin-right: 0.5rem;
+}
+/* Make ingredient font slightly smaller than category titles */
+.ingredient-item label {
+  font-size: 0.9rem;
 }
 
 .deselect-btn {
@@ -104,7 +153,7 @@ header {
   font-weight: 600;
   transition: background-color 0.3s;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: auto; /* push to bottom of sidebar */
 }
 
 .deselect-btn:hover {
@@ -121,6 +170,30 @@ header {
   justify-content: space-between;
   margin-bottom: 1.5rem;
 }
+
+/* Header actions: view toggle and count */
+.recipe-actions-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.view-btn {
+  background: #fff;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.view-btn + .view-btn { border-left: 1px solid #ddd; }
+.view-btn.active { background: var(--primary); color: #fff; }
+.view-btn:focus { outline: 2px solid rgba(255, 94, 98, 0.6); outline-offset: 2px; }
 
 .recipe-count {
   background-color: var(--primary);
@@ -156,9 +229,12 @@ header {
 }
 
 .recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Two-column balanced layout managed by JS */
+  display: flex;
+  align-items: flex-start;
   gap: 2rem;
+  /* Avoid UA scroll anchoring interfering with our manual anchoring */
+  overflow-anchor: none;
 }
 
 .recipe-card {
@@ -168,24 +244,41 @@ header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   position: relative;
+  width: 100%;
+}
+
+/* Image is the only interactive toggler */
+.recipe-image {
+  cursor: pointer;
 }
 
 .recipe-card:hover {
   transform: translateY(-5px);
 }
 
+/* While we perform manual scroll anchoring, neutralize hover lift to keep measurements stable */
+.scroll-anchoring .recipe-card:hover {
+  transform: none !important;
+}
+
 /* Dynamic Recipe Category Labels */
-.recipe-category {
+.recipe-categories {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: calc(100% - 20px);
+  z-index: 10;
+}
+.recipe-category {
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: bold;
   color: white;
   text-transform: capitalize;
-  z-index: 10;
 }
 
 /* Base category styles - these will be overridden by dynamic styles */
@@ -236,6 +329,66 @@ header {
   margin-top: 1rem;
 }
 
+/* Details toggle visibility */
+.recipe-details {
+  display: none;
+}
+.recipe-card.expanded .recipe-details {
+  display: block;
+}
+
+/* List view styles */
+.recipe-grid.list-view {
+  display: block;
+}
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.recipe-card.list-item {
+  display: flex;
+  align-items: stretch; /* stretch children to full card height so image matches card height */
+  overflow: hidden; /* keep rounded corners clean when details expand */
+}
+.recipe-card.list-item .recipe-image {
+  width: 96px;
+  height: 96px; /* fixed thumbnail height for consistent frame */
+  flex: 0 0 96px;
+  background-size: cover; /* fill the frame like grid cards (cropped edges) */
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.recipe-card.list-item .recipe-content {
+  padding: 0.75rem 1rem;
+  flex: 1 1 auto;
+}
+/* Clamp description a bit in list mode for compactness */
+.recipe-card.list-item .recipe-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #555;
+}
+/* List view: smooth roll-out of details below without shifting image upward */
+.recipe-card.list-item .recipe-details {
+  display: block; /* override global display:none */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform-origin: top;
+  transition: max-height 220ms ease, opacity 180ms ease;
+  margin-top: 0; /* no gap when collapsed */
+}
+.recipe-card.list-item.expanded .recipe-details {
+  max-height: 2000px; /* large enough for most content */
+  opacity: 1;
+  margin-top: 0.5rem; /* create space only below when expanded */
+}
+
 .no-recipes {
   text-align: center;
   padding: 2rem;
@@ -254,10 +407,192 @@ header {
   margin-left: 0.5rem;
 }
 
+.recipe-column {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+  /* Avoid UA scroll anchoring inside columns while we anchor manually */
+  overflow-anchor: none;
+}
+
 footer {
   background-color: var(--dark);
   color: white;
   text-align: center;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   margin-top: 2rem;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.lang-btn {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 2px;
+  cursor: pointer;
+}
+.lang-btn[aria-pressed="true"] {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.3) inset;
+}
+.lang-btn:focus { outline: 2px solid rgba(255, 255, 255, 0.6); outline-offset: 2px; }
+.footer-copy { opacity: 0.9; font-size: 0.9rem; }
+
+/* Right sidebar (shopping list) */
+.sidebar-right .cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.copy-cart-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+}
+.copy-cart-btn:hover { filter: brightness(0.95); }
+.copy-cart-btn:focus { outline: 2px solid rgba(255, 94, 98, 0.6); outline-offset: 2px; }
+
+.cart-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.5rem;
+}
+
+.cart-item-header {
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+hr.cart-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 0.35rem 0 0.35rem;
+}
+.cart-ingredients {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.75rem;
+}
+.cart-ingredients li { padding: 0.125rem 0; }
+.cart-ingredients .amt { color: #555; margin-right: 0.35rem; }
+.cart-all-set { color: #888; font-style: italic; }
+.cart-empty { color: #888; font-style: italic; padding-top: 0.5rem; }
+
+/* Remove from cart button (minus icon) */
+.remove-from-cart-btn {
+  background: #f1f3f5;
+  color: #333;
+  border: 1px solid #e1e4e8;
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  width: 28px;
+  height: 28px;
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem; /* bigger minus glyph */
+}
+.remove-from-cart-btn:hover { background: #e9ecef; }
+.remove-from-cart-btn:focus { outline: 2px solid rgba(255, 94, 98, 0.6); outline-offset: 2px; }
+
+/* Add to cart button inside recipe */
+.recipe-actions {
+  margin-top: 1rem;
+}
+.add-to-cart-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+.add-to-cart-btn:disabled { opacity: 0.6; cursor: default; }
+.add-to-cart-btn:focus { outline: 2px solid rgba(255, 94, 98, 0.6); outline-offset: 2px; }
+
+/* Toast for clipboard feedback */
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 9999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* Meta row with inline Add to cart button */
+.recipe-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.recipe-meta-row .add-to-cart-btn {
+  flex: 0 0 auto;
+}
+.recipe-meta-row .recipe-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0; /* override default margin when inside the row */
+}
+@media (max-width: 480px) {
+  .recipe-meta-row {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+  .recipe-meta-row .recipe-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+/* Grid view: stack Add to cart below the meta stats for better spacing */
+.recipe-grid:not(.list-view) .recipe-meta-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.recipe-grid:not(.list-view) .recipe-meta-row .recipe-meta {
+  order: 1;           /* show stats first */
+  gap: 1rem;          /* keep readable spacing between stats */
+  margin-bottom: 0;   /* avoid double spacing inside the column layout */
+}
+.recipe-grid:not(.list-view) .recipe-meta-row .add-to-cart-btn {
+  order: 2;           /* button comes after the stats */
+  margin-top: 0.25rem;
 }

@@ -4,11 +4,12 @@ export class RecipeCounter {
   }
 
   static update(count) {
+    if (!this.element) return;
     if (typeof count === "number") {
-      const recipeWord = count === 1 ? "recipe" : "recipes";
-      this.element.textContent = `${count} ${recipeWord}`;
+      const word = count === 1 ? 'recipe' : 'recipes';
+      this.element.textContent = `${count} ${word}`;
     } else {
-      this.element.textContent = count;
+      this.element.textContent = String(count);
     }
   }
 }

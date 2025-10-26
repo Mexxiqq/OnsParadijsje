@@ -1,15 +1,32 @@
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
+    gap: 1rem;
   }
 
   .sidebar {
     width: 100%;
     position: static;
+    height: auto;
+  }
+  .sidebar .ingredients-grid,
+  .sidebar .cart-scroll {
+    max-height: 40vh; /* keep internal scroll areas manageable on mobile */
   }
 
+  /* Stack order: left sidebar first, main content next, right sidebar last */
+  .sidebar-left { order: 1; }
+  .main-content { order: 2; }
+  .sidebar-right { order: 3; }
+
   .recipe-grid {
-    grid-template-columns: 1fr;
+    /* Stack columns on small screens */
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .recipe-column {
+    gap: 1rem;
   }
 
   .recipe-header {
