@@ -270,10 +270,10 @@ async function switchLanguage(locale) {
 
 // Setup language flag buttons
 function setupLanguageSelector() {
-  const flagButtons = document.querySelectorAll('.flag-btn');
+  const langButtons = document.querySelectorAll('.lang-btn');
 
-  if (!flagButtons || flagButtons.length === 0) {
-    console.warn('Language flag buttons not found in DOM');
+  if (!langButtons || langButtons.length === 0) {
+    console.warn('Language buttons not found in DOM');
     return;
   }
 
@@ -281,24 +281,24 @@ function setupLanguageSelector() {
   const currentLocale = i18n.getCurrentLocale();
   updateFlagStates(currentLocale);
 
-  // Add click handlers to each flag button
-  flagButtons.forEach(btn => {
+  // Add click handlers to each language button
+  langButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const newLocale = btn.getAttribute('data-lang');
       if (newLocale && newLocale !== i18n.getCurrentLocale()) {
-        console.log('Flag clicked, switching to:', newLocale);
+        console.log('Language button clicked, switching to:', newLocale);
         switchLanguage(newLocale);
       }
     });
   });
 
-  console.log('Language flag buttons initialized');
+  console.log('Language buttons initialized');
 }
 
 // Helper function to update flag button states
 function updateFlagStates(activeLocale) {
-  const flagButtons = document.querySelectorAll('.flag-btn');
-  flagButtons.forEach(btn => {
+  const langButtons = document.querySelectorAll('.lang-btn');
+  langButtons.forEach(btn => {
     const lang = btn.getAttribute('data-lang');
     if (lang === activeLocale) {
       btn.setAttribute('aria-pressed', 'true');

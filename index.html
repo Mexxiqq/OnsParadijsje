@@ -7,32 +7,6 @@
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/responsive.css" />
-    <style>
-.flag-btn {
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 4px;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
-  overflow: visible;
-}
-
-.flag-icon {
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: transform 0.2s ease;
-}
-    </style>
   </head>
   <body>
     <header>
@@ -90,16 +64,10 @@
       <div class="footer-inner">
         <div class="footer-copy" id="footer-copy" data-i18n="footer.copyright">© 2025 Recipe Collection. All rights reserved.</div>
         
-        <div class="language-flags" role="group" aria-label="Select language">
-          <button type="button" class="flag-btn" data-lang="en" aria-pressed="true" aria-label="Switch to English" title="English">
-            <span class="flag-icon">🇬🇧</span>
-          </button>
-          <button type="button" class="flag-btn" data-lang="fr" aria-pressed="false" aria-label="Passer au français" title="Français">
-            <span class="flag-icon">🇫🇷</span>
-          </button>
-          <button type="button" class="flag-btn" data-lang="nl" aria-pressed="false" aria-label="Schakel naar Nederlands" title="Nederlands">
-            <span class="flag-icon">🇳🇱</span>
-          </button>
+        <div class="language-picker" role="group" aria-label="Select language">
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="true" title="English">EN</button>
+          <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false" title="Français">FR</button>
+          <button type="button" class="lang-btn" data-lang="nl" aria-pressed="false" title="Nederlands">NL</button>
         </div>
       </div>
     </footer>

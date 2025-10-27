@@ -50,7 +50,11 @@ export class RightCart {
       header.className = "cart-item-header";
       header.innerHTML = `
         <span class="cart-item-title">${recipe.name || recipe.title || `Recipe ${recipe.id}`}</span>
-        <button class="remove-from-cart-btn" data-recipe-id="${recipe.id}" aria-label="Remove from shopping list" title="Remove" aria-pressed="false" type="button">&#8722;</button>
+        <button class="remove-from-cart-btn" data-recipe-id="${recipe.id}" aria-label="Remove from shopping list" title="Remove" aria-pressed="false" type="button">
+          <svg class="icon-minus" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <rect x="2" y="7" width="12" height="2" rx="1" fill="currentColor" shape-rendering="crispEdges" />
+          </svg>
+        </button>
       `;
       this.container.appendChild(header);
 

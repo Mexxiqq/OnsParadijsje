@@ -482,124 +482,47 @@ footer {
   text-align: left;
 }
 
-/* ===== LANGUAGE FLAGS IN FOOTER ===== */
+/* ===== LANGUAGE PICKER (SEGMENTED) ===== */
 
-.language-flags {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex: 0 0 auto;
-}
-
-.flag-btn {
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 4px;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.language-picker {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 2.25rem;
-  height: 2.25rem;
+  align-items: stretch;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
   overflow: hidden;
 }
 
-.flag-icon {
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  margin-top: -0.15rem;
-  transition: transform 0.2s ease;
+.lang-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 0;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.flag-btn:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.08);
+.lang-btn + .lang-btn {
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.flag-btn:hover .flag-icon {
-  transform: scale(1.05);
+.lang-btn[aria-pressed="true"] {
+  background: #ffffff;
+  color: #111111;
 }
 
-/* Active/Selected state - border matches flag size */
-.flag-btn[aria-pressed="true"] {
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
 }
 
-.flag-btn[aria-pressed="true"] .flag-icon {
-  transform: scale(1.05);
-}
-
-/* Focus state for accessibility */
-.flag-btn:focus {
+.lang-btn:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
 }
 
-/* Subtle glow on active */
-.flag-btn[aria-pressed="true"]::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 6px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-  pointer-events: none;
-  opacity: 0;
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.flag-btn[aria-pressed="true"] {
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
-}
-
-.flag-btn[aria-pressed="true"] .flag-icon {
-  transform: scale(1.05);
-}
-
-.flag-btn:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-}
-
-.flag-btn[aria-pressed="true"]::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 6px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-  pointer-events: none;
-  opacity: 0;
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
 
 /* ===== RIGHT SIDEBAR (SHOPPING LIST) ===== */
 
@@ -691,7 +614,7 @@ hr.cart-divider {
 .remove-from-cart-btn {
   background: #dc3545;
   color: white;
-  border: none;
+  border: 2px solid #dc3545;
   border-radius: 4px;
   padding: 0;
   width: 24px;
@@ -703,20 +626,26 @@ hr.cart-divider {
   font-size: 1.25rem;
   font-weight: bold;
   line-height: 1;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .remove-from-cart-btn:hover {
   background: #c82333;
+  border-color: #c82333;
 }
 
 .remove-from-cart-btn:focus {
   outline: none;
+  border-color: #bd2130;
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
 }
 
-.remove-from-cart-btn::before {
-  content: '−';
+/* SVG minus icon inside */
+.remove-from-cart-btn .icon-minus {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
   display: block;
 }
 
@@ -816,8 +745,8 @@ hr.cart-divider {
     text-align: center;
   }
 
-  .language-flags {
-    justify-content: center;
+  .language-picker {
+    align-self: center;
   }
 }
 
@@ -832,12 +761,11 @@ hr.cart-divider {
     justify-content: space-between;
   }
   
-  .flag-btn {
-    width: 2rem;
-    height: 2rem;
+  .language-picker {
+    font-size: 0.95rem;
   }
   
-  .flag-icon {
-    font-size: 1.75rem;
+  .lang-btn {
+    padding: 0.3rem 0.6rem;
   }
 }
