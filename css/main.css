@@ -603,12 +603,25 @@ footer {
 
 /* ===== RIGHT SIDEBAR (SHOPPING LIST) ===== */
 
-.sidebar-right .cart-header {
+.sidebar-right {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+}
+
+.sidebar-right h2 {
+  margin-bottom: 1rem;
+  flex: 0 0 auto;
+}
+
+.cart-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .copy-cart-btn {
@@ -616,8 +629,12 @@ footer {
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 0.4rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  flex: 0 0 auto;
+  transition: background-color 0.3s;
 }
 
 .copy-cart-btn:hover {
@@ -627,15 +644,6 @@ footer {
 .copy-cart-btn:focus {
   outline: 2px solid rgba(255, 94, 98, 0.6);
   outline-offset: 2px;
-}
-
-.cart-scroll {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding-right: 0.5rem;
 }
 
 .cart-item-header {

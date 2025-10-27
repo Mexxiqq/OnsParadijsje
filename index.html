@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+.flag-btn {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: visible;
+}
+
+.flag-icon {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+    </style>
   </head>
   <body>
     <header>
@@ -52,14 +78,12 @@
 
       <!-- Right sidebar: Shopping cart -->
       <aside class="sidebar sidebar-right" aria-label="Shopping list" data-i18n-aria="aria.shoppingList">
-        <div class="cart-header">
-          <h2 data-i18n="cart.title">Shopping List</h2>
-          <button id="copy-cart" class="copy-cart-btn" aria-label="Copy shopping list to clipboard" data-i18n="cart.copy">Copy</button>
-        </div>
-        <div id="cart-container" class="cart-scroll">
-          <!-- Cart items will be rendered here -->
-        </div>
-      </aside>
+            <h2 data-i18n="cart.title">Shopping List</h2>
+            <div id="cart-container" class="cart-scroll">
+              <!-- Cart items will be rendered here -->
+            </div>
+            <button id="copy-cart" class="copy-cart-btn" aria-label="Copy shopping list to clipboard" data-i18n="cart.copy">Copy</button>
+          </aside>
     </div>
 
     <footer>
