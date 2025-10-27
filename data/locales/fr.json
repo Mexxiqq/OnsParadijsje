@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "title": "Collection de Recettes",
+    "lang": "fr"
+  },
+  "header": {
+    "title": "🍳 Collection de Recettes 🍳",
+    "tagline": "Trouvez et filtrez les recettes par ingrédients"
+  },
+  "sidebar": {
+    "ingredientsTitle": "Filtrer par Ingrédients",
+    "deselectAll": "Tout Désélectionner"
+  },
+  "main": {
+    "recipeCollectionTitle": "Collection de Recettes",
+    "gridView": "Grille",
+    "listView": "Liste",
+    "loadingRecipes": "Chargement des recettes...",
+    "noRecipesTitle": "Aucune recette ne correspond aux ingrédients sélectionnés",
+    "noRecipesSuggestion": "Essayez de sélectionner d'autres ingrédients",
+    "categoryAll": "Toutes"
+  },
+  "cart": {
+    "title": "Liste de Courses",
+    "copy": "Copier",
+    "addToCart": "Ajouter au panier",
+    "added": "Ajouté",
+    "remove": "Retirer"
+  },
+  "recipe": {
+    "prep": "Préparation:",
+    "cook": "Cuisson:",
+    "serves": "Portions:",
+    "ingredients": "Ingrédients",
+    "instructions": "Instructions",
+    "matches": "correspondances"
+  },
+  "footer": {
+    "copyright": "© 2025 Collection de Recettes. Tous droits réservés."
+  },
+  "errors": {
+    "loadFailed": "Échec du chargement des recettes",
+    "checkFile": "Veuillez vérifier que le fichier de recettes existe",
+    "error": "Erreur"
+  },
+  "aria": {
+    "ingredientFilters": "Filtres d'ingrédients",
+    "shoppingList": "Liste de courses",
+    "toggleView": "Changer de vue",
+    "gridView": "Vue en grille",
+    "listView": "Vue en liste",
+    "toggleRecipe": "Afficher/masquer la recette complète pour",
+    "languageSelector": "Sélectionner la langue"
+  }
+}

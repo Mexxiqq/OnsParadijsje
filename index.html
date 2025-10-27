@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Collection</title>
+    <title data-i18n="meta.title">Recipe Collection</title>
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/responsive.css" />
   </head>
   <body>
     <header>
-      <h1 id="header-title">🍳 Recipe Collection 🍳</h1>
-      <p id="header-tagline">Find and filter recipes by ingredients</p>
+      <h1 id="header-title" data-i18n="header.title">🍳 Recipe Collection 🍳</h1>
+      <p id="header-tagline" data-i18n="header.tagline">Find and filter recipes by ingredients</p>
     </header>
 
     <div class="container">
       <!-- Sidebar for ingredients filter (left) -->
-      <aside class="sidebar sidebar-left" aria-label="Ingredient filters">
-        <h2>Filter by Ingredients</h2>
-        <button id="deselect-all" class="deselect-btn">Deselect All Ingredients</button>
+      <aside class="sidebar sidebar-left" aria-label="Ingredient filters" data-i18n-aria="aria.ingredientFilters">
+        <h2 data-i18n="sidebar.ingredientsTitle">Filter by Ingredients</h2>
+        <button id="deselect-all" class="deselect-btn" data-i18n="sidebar.deselectAll">Deselect All Ingredients</button>
         <div id="ingredients-container" class="ingredients-grid">
           <!-- Ingredients checkboxes will be loaded here -->
         </div>
@@ -27,13 +27,13 @@
       <!-- Main content area -->
       <main class="main-content" role="main">
         <div class="recipe-header">
-          <h2>Recipe Collection</h2>
+          <h2 data-i18n="main.recipeCollectionTitle">Recipe Collection</h2>
           <div class="recipe-actions-header">
-            <div id="view-toggle" class="view-toggle" role="group" aria-label="Toggle view">
-              <button type="button" class="view-btn active" data-view="grid" aria-pressed="true" aria-label="Grid view">Grid</button>
-              <button type="button" class="view-btn" data-view="list" aria-pressed="false" aria-label="List view">List</button>
+            <div id="view-toggle" class="view-toggle" role="group" aria-label="Toggle view" data-i18n-aria="aria.toggleView">
+              <button type="button" class="view-btn active" data-view="grid" aria-pressed="true" data-i18n="main.gridView" data-i18n-aria="aria.gridView">Grid</button>
+              <button type="button" class="view-btn" data-view="list" aria-pressed="false" data-i18n="main.listView" data-i18n-aria="aria.listView">List</button>
             </div>
-            <div id="recipe-count" class="recipe-count">Loading recipes...</div>
+            <div id="recipe-count" class="recipe-count" data-i18n="main.loadingRecipes">Loading recipes...</div>
           </div>
         </div>
 
@@ -45,16 +45,16 @@
           <!-- Recipes will be loaded here -->
         </div>
         <div id="no-recipes-message" class="no-recipes" style="display: none">
-          <h3>No recipes match your selected ingredients</h3>
-          <p>Try selecting different ingredients</p>
+          <h3 data-i18n="main.noRecipesTitle">No recipes match your selected ingredients</h3>
+          <p data-i18n="main.noRecipesSuggestion">Try selecting different ingredients</p>
         </div>
       </main>
 
       <!-- Right sidebar: Shopping cart -->
-      <aside class="sidebar sidebar-right" aria-label="Shopping list">
+      <aside class="sidebar sidebar-right" aria-label="Shopping list" data-i18n-aria="aria.shoppingList">
         <div class="cart-header">
-          <h2>Shopping List</h2>
-          <button id="copy-cart" class="copy-cart-btn" aria-label="Copy shopping list to clipboard">Copy</button>
+          <h2 data-i18n="cart.title">Shopping List</h2>
+          <button id="copy-cart" class="copy-cart-btn" aria-label="Copy shopping list to clipboard" data-i18n="cart.copy">Copy</button>
         </div>
         <div id="cart-container" class="cart-scroll">
           <!-- Cart items will be rendered here -->
@@ -64,7 +64,19 @@
 
     <footer>
       <div class="footer-inner">
-        <div class="footer-copy" id="footer-copy">© 2025 Recipe Collection. All rights reserved.</div>
+        <div class="footer-copy" id="footer-copy" data-i18n="footer.copyright">© 2025 Recipe Collection. All rights reserved.</div>
+        
+        <div class="language-flags" role="group" aria-label="Select language">
+          <button type="button" class="flag-btn" data-lang="en" aria-pressed="true" aria-label="Switch to English" title="English">
+            <span class="flag-icon">🇬🇧</span>
+          </button>
+          <button type="button" class="flag-btn" data-lang="fr" aria-pressed="false" aria-label="Passer au français" title="Français">
+            <span class="flag-icon">🇫🇷</span>
+          </button>
+          <button type="button" class="flag-btn" data-lang="nl" aria-pressed="false" aria-label="Schakel naar Nederlands" title="Nederlands">
+            <span class="flag-icon">🇳🇱</span>
+          </button>
+        </div>
       </div>
     </footer>
 

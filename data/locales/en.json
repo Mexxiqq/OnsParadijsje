@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "title": "Recipe Collection",
+    "lang": "en"
+  },
+  "header": {
+    "title": "🍳 Recipe Collection 🍳",
+    "tagline": "Find and filter recipes by ingredients"
+  },
+  "sidebar": {
+    "ingredientsTitle": "Filter by Ingredients",
+    "deselectAll": "Deselect All Ingredients"
+  },
+  "main": {
+    "recipeCollectionTitle": "Recipe Collection",
+    "gridView": "Grid",
+    "listView": "List",
+    "loadingRecipes": "Loading recipes...",
+    "noRecipesTitle": "No recipes match your selected ingredients",
+    "noRecipesSuggestion": "Try selecting different ingredients",
+    "categoryAll": "All"
+  },
+  "cart": {
+    "title": "Shopping List",
+    "copy": "Copy",
+    "addToCart": "Add to cart",
+    "added": "Added",
+    "remove": "Remove"
+  },
+  "recipe": {
+    "prep": "Prep:",
+    "cook": "Cook:",
+    "serves": "Serves:",
+    "ingredients": "Ingredients",
+    "instructions": "Instructions",
+    "matches": "matches"
+  },
+  "footer": {
+    "copyright": "© 2025 Recipe Collection. All rights reserved."
+  },
+  "errors": {
+    "loadFailed": "Failed to load recipes",
+    "checkFile": "Please check if the recipes file exists",
+    "error": "Error"
+  },
+  "aria": {
+    "ingredientFilters": "Ingredient filters",
+    "shoppingList": "Shopping list",
+    "toggleView": "Toggle view",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "toggleRecipe": "Toggle full recipe for",
+    "languageSelector": "Select language"
+  }
+}

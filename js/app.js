@@ -8,6 +8,7 @@ import {
 } from "./utils/categoryColors.js";
 import { applyFilters } from "./utils/filters.js";
 import { RightCart } from "./components/RightCart.js";
+import { i18n } from "./utils/i18n.js";
 
 // Global variable to store recipes data
 let recipesData = {
@@ -27,72 +28,56 @@ const recipeContainer = document.getElementById("recipe-container");
 const noRecipesMessage = document.getElementById("no-recipes-message");
 const deselectAllBtn = document.getElementById("deselect-all");
 
-// // Function to load recipes from JSON file
-// async function loadRecipes() {
-//   try {
-//     console.log("Loading recipes from recipes.json...");
-//     const response = await fetch("data/recipes.json");
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     console.log("Recipes loaded successfully:", data);
-//     recipesData = data;
-//     initializeApp();
-//   } catch (error) {
-//     console.error("Error loading recipes:", error);
-//     RecipeCounter.update("Error loading recipes");
-//     recipeContainer.innerHTML = `
-//             <div class="no-recipes">
-//                 <h3>Failed to load recipes</h3>
-//                 <p>Please check if recipes.json file exists in the same directory</p>
-//                 <p>Error: ${error.message}</p>
-//             </div>
-//         `;
-//   }
-// }
-
-// Function to load recipes from JSON file
+// Function to load recipes and translations
 async function loadRecipes() {
   try {
-    console.log("Loading recipes...");
+    console.log("Loading recipes and translations...");
 
-    // Try different possible paths
-    const possiblePaths = [
-      "data/recipes.json",
-      "./data/recipes.json",
-      "../data/recipes.json",
-      "recipes.json",
-      "./recipes.json",
-    ];
+    // Detect language from browser or localStorage or use default
+    let locale = 'en';
 
-    let response;
-    for (const path of possiblePaths) {
-      try {
-        response = await fetch(path);
-        if (response.ok) break;
-      } catch (e) {
-        console.log(`Failed to load from ${path}, trying next...`);
+    // Try to get saved preference first
+    try {
+      const saved = localStorage.getItem('preferredLanguage');
+      if (saved && i18n.getAvailableLocales().includes(saved)) {
+        locale = saved;
+      }
+    } catch (_) {}
+
+    // If no saved preference, try browser language
+    if (locale === 'en') {
+      const browserLang = navigator.language.split('-')[0];
+      const availableLocales = i18n.getAvailableLocales();
+      if (availableLocales.includes(browserLang)) {
+        locale = browserLang;
       }
     }
 
-    if (!response || !response.ok) {
-      throw new Error(`HTTP error! status: ${response?.status}`);
+    // Load both UI strings and recipes
+    const success = await i18n.loadLocale(locale);
+
+    if (!success) {
+      throw new Error('Failed to load locale data');
     }
 
-    const data = await response.json();
-    recipesData = data;
+    // Apply UI translations
+    i18n.applyTranslations();
+
+    // Get recipes from i18n
+    recipesData = i18n.getRecipes();
+
+    // Update flag button states
+    updateFlagStates(locale);
+
     initializeApp();
   } catch (error) {
     console.error("Error loading recipes:", error);
-    RecipeCounter.update("Error loading recipes");
+    RecipeCounter.update(i18n.t('errors.error', 'Error loading recipes'));
     recipeContainer.innerHTML = `
             <div class="no-recipes">
-                <h3>Failed to load recipes</h3>
-                <p>Please check if recipes.json file exists</p>
-                <p>Error: ${error.message}</p>
+                <h3>${i18n.t('errors.loadFailed', 'Failed to load recipes')}</h3>
+                <p>${i18n.t('errors.checkFile', 'Please check if the recipes file exists')}</p>
+                <p>${i18n.t('errors.error', 'Error')}: ${error.message}</p>
             </div>
         `;
   }
@@ -100,6 +85,10 @@ async function loadRecipes() {
 
 // Function to extract all ingredient types and recipe categories
 function extractCategoriesAndTypes() {
+  // Clear previous data
+  recipeCategories = new Set(["all"]);
+  ingredientTypes.clear();
+
   // Extract recipe categories (support multiple categories per recipe)
   recipesData.recipes.forEach((recipe) => {
     const cats = Array.isArray(recipe.categories) && recipe.categories.length
@@ -145,33 +134,34 @@ function initializeApp() {
   RecipeCounter.init();
   RightCart.init();
 
-  // Static texts are defined in HTML; no language switcher needed
- 
   // View toggle setup
   setupViewToggle();
- 
+
+  // Language flag buttons setup
+  setupLanguageSelector();
+
   // Helper to broadcast cart state to other components (e.g., to sync Add buttons)
   const dispatchCartUpdated = () => {
     const ids = cart.map((it) => it.recipe && it.recipe.id).filter((id) => typeof id === 'number');
     document.dispatchEvent(new CustomEvent('cart-updated', { detail: { ids } }));
   };
- 
+
   // Display all recipes initially
   applyFilters(recipesData, selectedIngredients, currentCategory);
   // Initial render of cart
   RightCart.render(cart, selectedIngredients);
   // Broadcast initial cart state for buttons sync
   dispatchCartUpdated();
- 
+
   // Add event listener to deselect all button
   deselectAllBtn.addEventListener("click", deselectAllIngredients);
- 
+
   // Listen to ingredient selection changes and update cart view
   document.addEventListener('selected-ingredients-changed', (e) => {
     selectedIngredients = e.detail.selectedIngredients || [];
     RightCart.render(cart, selectedIngredients);
   });
- 
+
   // Listen for add-to-cart events from recipe cards
   document.addEventListener('add-to-cart', (e) => {
     const r = e.detail && e.detail.recipe;
@@ -186,7 +176,7 @@ function initializeApp() {
     }
     dispatchCartUpdated();
   });
- 
+
   // Listen for remove-from-cart events (from right sidebar)
   document.addEventListener('remove-from-cart', (e) => {
     const recipeId = e.detail && e.detail.recipeId;
@@ -201,26 +191,134 @@ function initializeApp() {
       document.dispatchEvent(new CustomEvent('cart-removed', { detail: { recipeId } }));
     }
   });
- 
+
   // When recipes are re-rendered (e.g., after filters/view changes), re-broadcast cart state so buttons sync
   document.addEventListener('recipes-rendered', () => dispatchCartUpdated());
 
- 
   console.log("Application initialized successfully");
 }
 
-// Export state for other modules
-function applyStaticTexts() {
-  // No-op: static English texts are defined in index.html
+// Function to switch languages dynamically
+async function switchLanguage(locale) {
+  try {
+    console.log(`Switching to language: ${locale}...`);
+    
+    // Save scroll position relative to bottom before switching
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const viewportHeight = window.innerHeight;
+    const distanceFromBottom = scrollHeight - scrollTop - viewportHeight;
+    
+    // Load new locale (UI strings + recipes)
+    const success = await i18n.loadLocale(locale);
+    
+    if (!success) {
+      throw new Error(`Failed to load locale: ${locale}`);
+    }
+
+    // Save preference
+    try {
+      localStorage.setItem('preferredLanguage', locale);
+    } catch (_) {}
+
+    // Apply UI translations
+    i18n.applyTranslations();
+
+    // Update flag button states
+    updateFlagStates(locale);
+
+    // Get new recipes data
+    recipesData = i18n.getRecipes();
+
+    // Clear previous state
+    selectedIngredients = [];
+    currentCategory = 'all';
+
+    // Re-extract categories and types from new recipes
+    extractCategoriesAndTypes();
+
+    // Re-assign colors to new categories
+    assignCategoryColors(recipeCategories);
+    createDynamicCategoryStyles();
+
+    // Re-initialize all components with new data
+    CategoryTabs.init(recipeCategories, currentCategory);
+    IngredientFilter.init(recipesData, ingredientTypes);
+    
+    // Re-display recipes
+    applyFilters(recipesData, selectedIngredients, currentCategory);
+    
+    // Update cart display (ingredient names may have changed)
+    RightCart.render(cart, selectedIngredients);
+    
+    // Restore scroll position relative to bottom after content changes
+    requestAnimationFrame(() => {
+      const newScrollHeight = document.documentElement.scrollHeight;
+      const newScrollTop = newScrollHeight - distanceFromBottom - viewportHeight;
+      window.scrollTo({
+        top: Math.max(0, newScrollTop),
+        behavior: 'instant'
+      });
+    });
+    
+    console.log(`✓ Language switched to: ${locale}`);
+  } catch (error) {
+    console.error('Error switching language:', error);
+    alert(`Failed to switch to ${locale}: ${error.message}`);
+  }
 }
 
+// Setup language flag buttons
+function setupLanguageSelector() {
+  const flagButtons = document.querySelectorAll('.flag-btn');
 
+  if (!flagButtons || flagButtons.length === 0) {
+    console.warn('Language flag buttons not found in DOM');
+    return;
+  }
+
+  // Set initial active state based on current locale
+  const currentLocale = i18n.getCurrentLocale();
+  updateFlagStates(currentLocale);
+
+  // Add click handlers to each flag button
+  flagButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const newLocale = btn.getAttribute('data-lang');
+      if (newLocale && newLocale !== i18n.getCurrentLocale()) {
+        console.log('Flag clicked, switching to:', newLocale);
+        switchLanguage(newLocale);
+      }
+    });
+  });
+
+  console.log('Language flag buttons initialized');
+}
+
+// Helper function to update flag button states
+function updateFlagStates(activeLocale) {
+  const flagButtons = document.querySelectorAll('.flag-btn');
+  flagButtons.forEach(btn => {
+    const lang = btn.getAttribute('data-lang');
+    if (lang === activeLocale) {
+      btn.setAttribute('aria-pressed', 'true');
+      btn.classList.add('active');
+    } else {
+      btn.setAttribute('aria-pressed', 'false');
+      btn.classList.remove('active');
+    }
+  });
+}
+
+// Export state for other modules
 export {
   recipesData,
   currentCategory,
   selectedIngredients,
   ingredientTypes,
   recipeCategories,
+  i18n,
+  switchLanguage
 };
 export const setCurrentCategory = (category) => {
   currentCategory = category;
@@ -284,3 +382,6 @@ function setupViewToggle() {
 
 // Start the application by loading recipes
 document.addEventListener("DOMContentLoaded", loadRecipes);
+
+// Expose switchLanguage globally for testing in console
+window.switchLanguage = switchLanguage;

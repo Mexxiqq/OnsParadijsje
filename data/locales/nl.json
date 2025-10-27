@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "title": "Receptenverzameling",
+    "lang": "nl"
+  },
+  "header": {
+    "title": "🍳 Receptenverzameling 🍳",
+    "tagline": "Zoek en filter recepten op ingrediënten"
+  },
+  "sidebar": {
+    "ingredientsTitle": "Filter op Ingrediënten",
+    "deselectAll": "Alle Deselecteren"
+  },
+  "main": {
+    "recipeCollectionTitle": "Receptenverzameling",
+    "gridView": "Raster",
+    "listView": "Lijst",
+    "loadingRecipes": "Recepten laden...",
+    "noRecipesTitle": "Geen recepten komen overeen met de geselecteerde ingrediënten",
+    "noRecipesSuggestion": "Probeer andere ingrediënten te selecteren",
+    "categoryAll": "Alle"
+  },
+  "cart": {
+    "title": "Boodschappenlijst",
+    "copy": "Kopiëren",
+    "addToCart": "Toevoegen",
+    "added": "Toegevoegd",
+    "remove": "Verwijderen"
+  },
+  "recipe": {
+    "prep": "Voorbereiding:",
+    "cook": "Kooktijd:",
+    "serves": "Porties:",
+    "ingredients": "Ingrediënten",
+    "instructions": "Instructies",
+    "matches": "overeenkomsten"
+  },
+  "footer": {
+    "copyright": "© 2025 Receptenverzameling. Alle rechten voorbehouden."
+  },
+  "errors": {
+    "loadFailed": "Laden van recepten mislukt",
+    "checkFile": "Controleer of het receptenbestand bestaat",
+    "error": "Fout"
+  },
+  "aria": {
+    "ingredientFilters": "Ingrediëntenfilters",
+    "shoppingList": "Boodschappenlijst",
+    "toggleView": "Weergave wisselen",
+    "gridView": "Rasterweergave",
+    "listView": "Lijstweergave",
+    "toggleRecipe": "Volledig recept tonen/verbergen voor",
+    "languageSelector": "Selecteer taal"
+  }
+}
