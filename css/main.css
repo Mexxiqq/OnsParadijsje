@@ -92,9 +92,8 @@ header {
 }
 
 .ingredient-category {
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.35rem;
+  margin-bottom: 0.35rem;
+  padding: 0.1rem 0;
 }
 
 .ingredient-category:last-child {
@@ -104,35 +103,54 @@ header {
 .category-title {
   font-weight: 600;
   color: var(--primary);
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 0;
-  border-bottom: 1px solid var(--primary);
-  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.95rem;
 }
 
 .category-toggle {
-  background: none;
+  background: transparent;
   border: none;
   width: 100%;
   text-align: left;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 0.5rem;
   cursor: pointer;
+  padding: 0.35rem 0.25rem 0.35rem 0;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
 }
 
 .category-toggle:focus {
   outline: 2px solid rgba(255, 94, 98, 0.6);
   outline-offset: 2px;
 }
+.category-toggle:hover {
+  background: #f2f2f7;
+}
+.category-toggle[aria-expanded="true"] {
+  background: #f7f7f9;
+}
+.category-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
 
-.category-toggle::after {
-  content: '';
-  display: none;
+.category-toggle::before {
+  content: '▸';
+  line-height: 1;
+  color: var(--primary);
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+  margin-right: 0.25rem;
 }
 
 .category-panel {
-  padding-top: 0.5rem;
+  padding-top: 0.35rem;
+  padding-left: 0.75rem; /* indentation only, no borders */
+  margin-top: 0.15rem;
 }
 
 .ingredient-category.collapsed .category-panel {
@@ -142,7 +160,7 @@ header {
 .ingredient-item {
   display: flex;
   align-items: center;
-  padding: 0.35rem 0.5rem;
+  padding: 0.25rem 0.25rem;
   border-radius: 4px;
   transition: background-color 0.2s;
 }
@@ -156,7 +174,7 @@ header {
 }
 
 .ingredient-item label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .deselect-btn {
